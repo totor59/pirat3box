@@ -1,0 +1,20 @@
+.label-file {
+    cursor: pointer;
+    color: #17a2b8;
+    text-align: center;
+    border: 1px solid #17a2b8;
+    border-radius: 4px;
+    font-size: 12px;
+    padding: 6px 12px;
+    line-height: 1.42857143;
+    width: 100%;
+    transition: 0.3s;
+    font-weight: bold;
+}
+.label-file:hover {
+    transition: 0.3s;
+    }
+.input-file {
+    display: none !important;
+}
+
