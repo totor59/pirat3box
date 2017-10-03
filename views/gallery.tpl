@@ -41,9 +41,12 @@ Pas de stress, pas d'hadopi t'es pas sur internet !</p>
   <div role="tabpanel" class="tab-pane fade" id="images">ccc</div>
 </div>
 <br>
-<h6 class="card-subtitle mb-2 text-muted">Disk usage</h6>
+<h6 class="card-subtitle mb-2 text-muted">Espace disponible</h6>
 <div class="progress">
-<div class="progress-bar progress-bar-striped progress-bar-animated bg-danger" role="progressbar" aria-valuenow="{{diskspace}}" aria-valuemin="0" aria-valuemax="100" style="width: {{diskspace}}%">{{diskspace}}%</div>
+<div class="progress-bar progress-bar-striped progress-bar-animated
+bg-{{diskspace['color']}}"
+role="progressbar" aria-valuenow="{{diskspace['usage']}}" aria-valuemin="0"
+aria-valuemax="100" style="width: {{diskspace['usage']}}%">{{diskspace['usage']}}%</div>
 </div>
 <br>
 <form method='post' action='/upload' enctype='multipart/form-data'>

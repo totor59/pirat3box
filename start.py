@@ -18,8 +18,9 @@ def disk_usage():
     capacity = (disk.f_bsize * disk.f_blocks)/1.048576e6
     available = (disk.f_bsize * disk.f_bavail)/1.048576e6
     used = (disk.f_bsize * (disk.f_blocks - disk.f_bavail))/1.048576e6
-    usage = round(100*used/capacity ,2)
-    return usage
+    usage = 100-(round(100*used/capacity ,2))
+    mydict = {'usage': usage, 'color': 'success'}
+    return mydict
 
 
 # Static files route
@@ -28,10 +29,16 @@ def get_static_files(filename):
         """Get Static files"""
         return static_file(filename, root=STATIC_DIR)
 
+@app.route('/')
+@view('views/chat.tpl')
+def chat():
+    context = {'content': 'Hello Bottle.py'}
+    return context
+
 
 @app.route('/')
-@view('views/index.tpl')
-def hello():
+@view('views/gallery.tpl')
+def gallery():
     disk = disk_usage() 
     context = {'content': 'Hello Bottle.py',
                'diskspace': disk,
