@@ -47,7 +47,7 @@ def upload():
     newfile = request.files.get('newfile')
     # only allow upload of text files
     if newfile.content_type != 'text/plain':
-        return "Only text files allowed"
+        return redirect('/?error=Only text files allowed')
     try:
         save_path = os.path.join(UPLOAD_DIR, newfile.filename)
         newfile.save(save_path)

@@ -10,12 +10,14 @@
 <body>
     <div class="container">
         <div class="row">
+        <div class="col-12">
             <div class="jumbotron jumbotron-fluid col-12">
                 <div class="row align-items-center justify-content-center">
                     <img src="static/img/pirate-flag.png" class="col-3" alt="">
                     <div class="jumbotron_wrap float-right text-center">
                     <h1 class="display-3">pirat3box</h1>
                     <p class="lead">Pour tous les roubaisiens wallah</p>
+                </div>
                 </div>
                 </div>
             </div>

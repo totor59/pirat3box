@@ -1,7 +1,7 @@
 % rebase('layout/base.tpl', title="pirat3box")
 
-
-<div class="card col-12 col-sm-8 col-md-6" style="width: 20rem;">
+<div class="col-12 col-sm-8 col-md-6">
+<div class="card">
 <div class="card-body">
 %if error:
 <div class="col-12 alert alert-danger alert-dismissible fade show" role="alert">
@@ -18,8 +18,9 @@
   <strong>Cool!</strong> {{success}}
 </div>
 %end
-<h4 class="card-title">Gallery</h4>
-<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+<h4 class="card-title">Zone Téléchargement</h4>
+<p class="card-text">Partage, télécharge, uploade sans pression ...<br>
+Pas de stress, pas d'hadopi t'es pas sur internet !</p>
 
 <ul class="nav nav-tabs" role="tablist">
   <li class="nav-item">
@@ -51,6 +52,7 @@
 </form>
 <a href="#" class="card-link">Card link</a>
 <a href="#" class="card-link">Another link</a>
+</div>
 </div>
 </div>
 <h1 id="app">
