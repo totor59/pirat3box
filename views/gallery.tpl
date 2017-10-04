@@ -1,4 +1,3 @@
-% rebase('layout/base.tpl', title="pirat3box")
 
 <div class="col-12 col-sm-8 col-md-6">
 <div class="card">
@@ -29,16 +28,44 @@ Pas de stress, pas d'hadopi t'es pas sur internet !</p>
   <li class="nav-item">
     <a class="nav-link" href="#music" role="tab" data-toggle="tab">Musique</a>
   </li>
-  <li class="nav-item">
+   <li class="nav-item">
     <a class="nav-link" href="#images" role="tab" data-toggle="tab">Images</a>
+  </li> 
+  <li class="nav-item">
+    <a class="nav-link" href="#others" role="tab" data-toggle="tab">Divers</a>
   </li>
 </ul>
 
 <!-- Tab panes -->
 <div class="tab-content">
-  <div role="tabpanel" class="tab-pane fade in active" id="videos">...</div>
-  <div role="tabpanel" class="tab-pane fade" id="music">bbb</div>
-  <div role="tabpanel" class="tab-pane fade" id="images">ccc</div>
+  <div role="tabpanel" class="tab-pane fade in active" id="videos">
+        <ul>
+      % for item in video:
+      <li><a href="uploads/music/{{item}}">{{item}}</a></li>
+      % end
+    </ul>
+  </div>
+  <div role="tabpanel" class="tab-pane fade" id="music">
+      <ul>
+      % for item in audio:
+      <li><a href="uploads/music/{{item}}">{{item}}</a></li>
+      % end
+    </ul>
+  </div>
+   <div role="tabpanel" class="tab-pane fade" id="images">
+    <ul>
+      % for item in img:
+      <li><a href="uploads/img/{{item}}">{{item}}</a></li>
+      % end
+    </ul>
+  </div> 
+  <div role="tabpanel" class="tab-pane fade" id="others">
+    <ul>
+      % for item in others:
+      <li><a href="uploads/others/{{item}}">{{item}}</a></li>
+      % end
+    </ul>
+  </div>
 </div>
 <br>
 <h6 class="card-subtitle mb-2 text-muted">Espace disponible</h6>

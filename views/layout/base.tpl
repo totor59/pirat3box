@@ -21,7 +21,7 @@
                 </div>
                 </div>
             </div>
-            {{!base}}
+            % include('gallery.tpl')
         </div>
     </div>
 <script type="text/javascript" src="static/js/lib/jquery.min.js"></script>
