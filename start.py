@@ -119,20 +119,20 @@ def home():
 def upload():
     """Handle file upload form"""
     # get the 'newfile' input from the form
-    newfile = request.files.get('newfile')
-    filetype = newfile.content_type
-    audio = ['audio/mpeg','audio/aac','audio/mp4','audio/ogg','audio/wav']
-    video = ['video/avi','video/msvideo','video/mp4','video/ogg']
-    img = ['image/jpeg', 'image/pjpeg','image/png','image/gif']
-    if filetype in audio:
-        DEST_DIR = os.path.join(UPLOAD_DIR, 'audio')
-    elif filetype in video:
-        DEST_DIR = os.path.join(UPLOAD_DIR, 'video')
-    elif filetype in img:
-        DEST_DIR = os.path.join(UPLOAD_DIR, 'img')
-    else: 
-        DEST_DIR = os.path.join(UPLOAD_DIR, 'others')
     try:
+        newfile = request.files.get('newfile')
+        filetype = newfile.content_type
+        audio = ['audio/mpeg','audio/aac','audio/mp4','audio/ogg','audio/wav']
+        video = ['video/avi','video/msvideo','video/mp4','video/ogg']
+        img = ['image/jpeg', 'image/pjpeg','image/png','image/gif']
+        if filetype in audio:
+            DEST_DIR = os.path.join(UPLOAD_DIR, 'audio')
+        elif filetype in video:
+            DEST_DIR = os.path.join(UPLOAD_DIR, 'video')
+        elif filetype in img:
+            DEST_DIR = os.path.join(UPLOAD_DIR, 'img')
+        else: 
+            DEST_DIR = os.path.join(UPLOAD_DIR, 'others')
         save_path = os.path.join(DEST_DIR, newfile.filename)
         newfile.save(save_path)
     except:

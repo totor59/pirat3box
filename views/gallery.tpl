@@ -23,16 +23,16 @@ Pas de stress, pas d'hadopi t'es pas sur internet !</p>
 
 <ul class="nav nav-tabs nav-fill" role="tablist">
   <li class="nav-item">
-    <a class="nav-link active" href="#videos" role="tab" data-toggle="tab">Vidéos</a>
+    <a class="nav-link active" href="#videos" role="tab" data-toggle="tab"><i class="fa fa-fw fa-film" aria-hidden="true"></i> Vidéos</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="#music" role="tab" data-toggle="tab">Musique</a>
+    <a class="nav-link" href="#music" role="tab" data-toggle="tab"><i class="fa fa-fw fa-music" aria-hidden="true"></i> Musique</a>
   </li>
    <li class="nav-item">
-    <a class="nav-link" href="#images" role="tab" data-toggle="tab">Images</a>
+    <a class="nav-link" href="#images" role="tab" data-toggle="tab"><i class="fa fa-fw fa-picture-o" aria-hidden="true"></i> Images</a>
   </li> 
   <li class="nav-item">
-    <a class="nav-link" href="#others" role="tab" data-toggle="tab">Divers</a>
+    <a class="nav-link" href="#others" role="tab" data-toggle="tab"><i class="fa fa-fw fa-file-o" aria-hidden="true"></i> Divers</a>
   </li>
 </ul>
 
@@ -73,7 +73,7 @@ Pas de stress, pas d'hadopi t'es pas sur internet !</p>
   <div class="form-group">
     <input id="file" name="newfile" type="file" class="form-control-file">
   </div>
-<button type="submit" class="btn btn-primary">Uploader</button>
+<button type="submit" class="btn btn-primary"><i class="fa fa-fw fa-upload" aria-hidden="true"></i> Uploader</button>
 </form>
 <br>
 <h6 class="card-subtitle mb-2 text-muted">Espace disponible</h6>
