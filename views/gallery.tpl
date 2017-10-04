@@ -18,10 +18,10 @@
 </div>
 %end
 <h4 class="card-title">Zone Téléchargement</h4>
-<p class="card-text">Partage, télécharge, uploade sans pression ...<br>
+<p class="card-subtitle mb-2 text-muted">Partage, télécharge, uploade sans pression ...<br>
 Pas de stress, pas d'hadopi t'es pas sur internet !</p>
 
-<ul class="nav nav-tabs" role="tablist">
+<ul class="nav nav-tabs nav-fill" role="tablist">
   <li class="nav-item">
     <a class="nav-link active" href="#videos" role="tab" data-toggle="tab">Vidéos</a>
   </li>
@@ -38,28 +38,28 @@ Pas de stress, pas d'hadopi t'es pas sur internet !</p>
 
 <!-- Tab panes -->
 <div class="tab-content">
-  <div role="tabpanel" class="tab-pane fade in active" id="videos">
+  <div role="tabpanel" class="tab-pane in active" id="videos">
         <ul>
       % for item in video:
       <li><a href="uploads/music/{{item}}">{{item}}</a></li>
       % end
     </ul>
   </div>
-  <div role="tabpanel" class="tab-pane fade" id="music">
+  <div role="tabpanel" class="tab-pane" id="music">
       <ul>
       % for item in audio:
       <li><a href="uploads/music/{{item}}">{{item}}</a></li>
       % end
     </ul>
   </div>
-   <div role="tabpanel" class="tab-pane fade" id="images">
+   <div role="tabpanel" class="tab-pane" id="images">
     <ul>
       % for item in img:
       <li><a href="uploads/img/{{item}}">{{item}}</a></li>
       % end
     </ul>
   </div> 
-  <div role="tabpanel" class="tab-pane fade" id="others">
+  <div role="tabpanel" class="tab-pane" id="others">
     <ul>
       % for item in others:
       <li><a href="uploads/others/{{item}}">{{item}}</a></li>
@@ -68,6 +68,14 @@ Pas de stress, pas d'hadopi t'es pas sur internet !</p>
   </div>
 </div>
 <br>
+<h4 class="card-title">Partager un fichier</h4>
+<form method='post' action='/upload' class="form-inline" enctype='multipart/form-data'>
+  <div class="form-group">
+    <input id="file" name="newfile" type="file" class="form-control-file">
+  </div>
+<button type="submit" class="btn btn-primary">Uploader</button>
+</form>
+<br>
 <h6 class="card-subtitle mb-2 text-muted">Espace disponible</h6>
 <div class="progress">
 <div class="progress-bar progress-bar-striped progress-bar-animated
@@ -75,13 +83,6 @@ bg-{{diskspace['color']}}"
 role="progressbar" aria-valuenow="{{diskspace['usage']}}" aria-valuemin="0"
 aria-valuemax="100" style="width: {{diskspace['usage']}}%">{{diskspace['usage']}}%</div>
 </div>
-<br>
-<form method='post' action='/upload' enctype='multipart/form-data'>
-<label for="file" class="label-file btn-outline-info">Uploader un fichier</label>
-<input id="file" name="newfile" class="input-file" type="file" onchange="this.form.submit()" accept="">
-</form>
-<a href="#" class="card-link">Card link</a>
-<a href="#" class="card-link">Another link</a>
 </div>
 </div>
 </div>

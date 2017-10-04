@@ -118,9 +118,8 @@ def home():
 @app.post('/upload')
 def upload():
     """Handle file upload form"""
-    # get the 'newfile' field from the form
+    # get the 'newfile' input from the form
     newfile = request.files.get('newfile')
-    # only allow upload of text files
     filetype = newfile.content_type
     audio = ['audio/mpeg','audio/aac','audio/mp4','audio/ogg','audio/wav']
     video = ['video/avi','video/msvideo','video/mp4','video/ogg']
