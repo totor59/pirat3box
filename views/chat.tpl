@@ -13,7 +13,7 @@
                     $('#messages').append("<li>Your browser doesn't support WebSockets.</li>");
                 }
             }
-            ws = new WebSocket('ws://localhost:8080/websocket');
+            ws = new WebSocket('ws://192.168.1.57:8080/websocket');
             ws.onopen = function(evt) {
                 $('#messages').append('<li>Connected to chat.</li>');
             }
@@ -32,7 +32,12 @@
         <input id="message" type="text" value="message" />
         <input type="submit" value="Send" />
     </form>
-<div id="messages"></div>
+<div id="messages">
+% if chat:
+    % for msg in chat:
+    <li>{{msg[2]}}:{{msg[3]}}</li>
+    % end
+</div>
 </div>
 </div>
 </div>

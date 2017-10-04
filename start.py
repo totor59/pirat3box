@@ -1,6 +1,7 @@
 # coding: utf8
 import os
 import glob
+import sqlite3
 from bottle import Bottle, run, view, static_file, url, request, redirect, template, abort
 from bottle.ext.websocket import GeventWebSocketServer
 from bottle.ext.websocket import websocket
@@ -10,6 +11,20 @@ app = Bottle()
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 STATIC_DIR = os.path.join(BASE_DIR, 'static')
 UPLOAD_DIR = os.path.join(BASE_DIR, 'uploads')
+# For chat broadcast
+users = set()
+
+
+def db_init():
+    try:
+        conn = sqlite3.connect('piratebox.db', timeout=10)
+        db = conn.cursor()
+        db.execute('CREATE TABLE IF NOT EXISTS CHAT(ID INTEGER PRIMARY KEY,'
+                   'IP VARCHAR(100), USR VARCHAR(100), MSG TEXT)')
+        conn.commit()
+        conn.close()
+    except sqlite3.Error as e:
+        print e
 
 
 def disk_usage():
@@ -31,6 +46,14 @@ def get_gallery(typ):
             typ)+"/**")]
 
 
+def get_messages():
+    conn = sqlite3.connect('piratebox.db', timeout=10)
+    db = conn.cursor()
+    # Loot table
+    messages = db.execute("SELECT * FROM CHAT LIMIT 100")
+    return messages.fetchall()
+
+
 # Static files route
 @app.get('/static/<filename:path>')
 def get_static_files(filename):
@@ -45,24 +68,33 @@ def get_upload_files(filename):
         return static_file(filename, root=UPLOAD_DIR)
 
 
-users = set()
-
 
 @app.get('/websocket', apply=[websocket])
-def echo(ws):
+def chat(ws):
     users.add(ws)
     while True:
-        msg = ws.receive()
-        if msg is not None:
+        line = ws.receive()
+        if line is not None:
+            data = line.split(":", 1)
+            usr = data[0]
+            msg = data[1]
+            ip = request.environ.get('REMOTE_ADDR')
+            conn = sqlite3.connect('piratebox.db', timeout=10)
+            db = conn.cursor()
+            # Loot table
+            db.execute("INSERT INTO CHAT(IP, USR, MSG)"
+                       "VALUES (?, ?, ?)", (ip, usr, msg))
+            conn.commit()
+            conn.close()
+            print usr, msg
             for u in users:
-                u.send(msg)
+                u.send(line)
         else:
             break
     users.remove(ws)
 
 
 @app.route('/')
-#@view('views/gallery.tpl')
 def home():
     # UPLOAD
     disk = disk_usage()
@@ -70,8 +102,6 @@ def home():
     video = get_gallery('video')
     img = get_gallery('img')
     others = get_gallery('others')
-    # CHAT
-
     # TEMPLATE
     context = {'title': 'pirat3box',
                'diskspace': disk,
@@ -80,7 +110,8 @@ def home():
                'audio': audio,
                'video': video,
                'img': img,
-               'others': others}
+               'others': others,
+               'chat': get_messages()}
     return template('layout/base', context)
 
 
@@ -110,7 +141,8 @@ def upload():
     return redirect('/?success=Fichier uploadé avec succès')
 
 if __name__ == "__main__":
-    run(app, host='localhost', port=8080, 
+    db_init()
+    run(app, host='0.0.0.0', port=8080, 
         reloader=True, debug=True,
         server=GeventWebSocketServer)
  
