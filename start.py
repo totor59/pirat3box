@@ -1,7 +1,9 @@
 # coding: utf8
 import os
 import glob
-from bottle import Bottle, run, view, static_file, url, request, redirect, template
+from bottle import Bottle, run, view, static_file, url, request, redirect, template, abort
+from bottle.ext.websocket import GeventWebSocketServer
+from bottle.ext.websocket import websocket
 
 app = Bottle()
 # Define dirs
@@ -13,20 +15,20 @@ UPLOAD_DIR = os.path.join(BASE_DIR, 'uploads')
 def disk_usage():
     """
     Return actual disk usage in kilobytes
-    :return: <tuple> (capacity, available, used) 
+    :return: <dict> {usage(%), color(css class)}
     """
     disk = os.statvfs("/")
     capacity = (disk.f_bsize * disk.f_blocks)/1.048576e6
     available = (disk.f_bsize * disk.f_bavail)/1.048576e6
     used = (disk.f_bsize * (disk.f_blocks - disk.f_bavail))/1.048576e6
-    usage = 100-(round(100*used/capacity ,2))
+    usage = 100-(round(100*used/capacity, 2))
     mydict = {'usage': usage, 'color': 'success'}
     return mydict
 
 
 def get_gallery(typ):
     return [os.path.basename(x) for x in glob.glob(os.path.join(UPLOAD_DIR,
-        typ)+"/**")]
+            typ)+"/**")]
 
 
 # Static files route
@@ -38,19 +40,33 @@ def get_static_files(filename):
 
 # Upload files route
 @app.get('/uploads/<filename:path>')
-def get_static_files(filename):
+def get_upload_files(filename):
         """Get Static files"""
         return static_file(filename, root=UPLOAD_DIR)
+
+
+@app.get('/websocket', apply=[websocket])
+def echo(ws):
+    while True:
+        msg = ws.receive()
+        if msg is not None:
+            ws.send(msg)
+        else:
+            break
 
 
 @app.route('/')
 #@view('views/gallery.tpl')
 def home():
+    # UPLOAD
     disk = disk_usage()
     audio = get_gallery('audio')
     video = get_gallery('video')
     img = get_gallery('img')
     others = get_gallery('others')
+    # CHAT
+
+    # TEMPLATE
     context = {'title': 'pirat3box',
                'diskspace': disk,
                'error': request.query.error,
@@ -88,4 +104,8 @@ def upload():
     return redirect('/?success=Fichier uploadé avec succès')
 
 if __name__ == "__main__":
-    run(app, host='localhost', port=8080, reloader=True, debug=True)
+    run(app, host='localhost', port=8080, 
+        reloader=True, debug=True,
+        server=GeventWebSocketServer)
+ 
+

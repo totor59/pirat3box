@@ -85,8 +85,4 @@ aria-valuemax="100" style="width: {{diskspace['usage']}}%">{{diskspace['usage']}
 </div>
 </div>
 </div>
-<h1 id="app">
-    {% message %}
-</h1>
-
 

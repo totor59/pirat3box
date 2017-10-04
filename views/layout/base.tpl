@@ -6,6 +6,7 @@
     <link rel="icon" type="image/png" href="static/favicon.gif" />
     <link rel="stylesheet" href="static/css/lib/bootstrap.min.css">
     <link rel="stylesheet" href="static/css/style.css">
+    <script type="text/javascript" src="static/js/lib/jquery.min.js"></script>
 </head>
 <body>
     <div class="container">
@@ -22,12 +23,10 @@
                 </div>
             </div>
             % include('gallery.tpl')
+            % include('chat.tpl')
         </div>
     </div>
-<script type="text/javascript" src="static/js/lib/jquery.min.js"></script>
 <script type="text/javascript" src="static/js/lib/popper.min.js"></script>
 <script type="text/javascript" src="static/js/lib/bootstrap.min.js"></script>
-<script type="text/javascript" src="static/js/lib/vue.js"></script>
-<script type="text/javascript" src="static/js/main.js"></script>
 </body>
 </html>
