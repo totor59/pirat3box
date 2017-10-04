@@ -45,14 +45,20 @@ def get_upload_files(filename):
         return static_file(filename, root=UPLOAD_DIR)
 
 
+users = set()
+
+
 @app.get('/websocket', apply=[websocket])
 def echo(ws):
+    users.add(ws)
     while True:
         msg = ws.receive()
         if msg is not None:
-            ws.send(msg)
+            for u in users:
+                u.send(msg)
         else:
             break
+    users.remove(ws)
 
 
 @app.route('/')
