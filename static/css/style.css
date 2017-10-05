@@ -27,3 +27,16 @@
     height: 250px;
     overflow-y: scroll
 }
+.separator hr {
+    display: inline-block;
+    margin: -20px;
+}
+.separator {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.chat-room {
+    max-height: 250px;
+    overflow-y: scroll;
+}

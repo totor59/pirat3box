@@ -2,7 +2,9 @@
 import os
 import glob
 import sqlite3
-from bottle import Bottle, run, view, static_file, url, request, redirect, template, abort
+import datetime
+import json
+from bottle import Bottle, run, view, static_file, url, request, redirect, template, abort, response
 from bottle.ext.websocket import GeventWebSocketServer
 from bottle.ext.websocket import websocket
 
@@ -20,7 +22,7 @@ def db_init():
         conn = sqlite3.connect('piratebox.db', timeout=10)
         db = conn.cursor()
         db.execute('CREATE TABLE IF NOT EXISTS CHAT(ID INTEGER PRIMARY KEY,'
-                   'IP VARCHAR(100), USR VARCHAR(100), MSG TEXT)')
+                   'DATE, USR VARCHAR(100), MSG TEXT)')
         conn.commit()
         conn.close()
     except sqlite3.Error as e:
@@ -50,9 +52,19 @@ def get_messages():
     conn = sqlite3.connect('piratebox.db', timeout=10)
     db = conn.cursor()
     # Loot table
-    messages = db.execute("SELECT * FROM CHAT LIMIT 100")
-    return messages.fetchall()
-
+    row = db.execute("SELECT * FROM CHAT LIMIT 100")
+    result = row.fetchall()
+    #messages = list(result)
+    messages = []
+    for tpl in result:
+        msg = list(tpl)
+        date = datetime.datetime.strptime(msg[1], "%Y-%m-%d %H:%M:%S.%f")
+        #print str(date.hour) + "h" + str(date.minute)
+        msg.append(" <small class='text-muted'>" + str(date.hour) + "h" 
+                   + str(date.minute) + "</small>")
+        msg.append(str(date.day) + "/" + str(date.month))
+        messages.append(msg)
+    return messages
 
 # Static files route
 @app.get('/static/<filename:path>')
@@ -73,22 +85,20 @@ def get_upload_files(filename):
 def chat(ws):
     users.add(ws)
     while True:
-        line = ws.receive()
+        line = json.loads(ws.receive())
         if line is not None:
-            data = line.split(":", 1)
-            usr = data[0]
-            msg = data[1]
-            ip = request.environ.get('REMOTE_ADDR')
+            usr = line[0]
+            msg = line[1]
+            date = datetime.datetime.now()
             conn = sqlite3.connect('piratebox.db', timeout=10)
             db = conn.cursor()
-            # Loot table
-            db.execute("INSERT INTO CHAT(IP, USR, MSG)"
-                       "VALUES (?, ?, ?)", (ip, usr, msg))
+            db.execute("INSERT INTO CHAT(DATE, USR, MSG)"
+                       "VALUES (?, ?, ?)", (date, usr, msg))
             conn.commit()
             conn.close()
-            print usr, msg
+            date = " <small class='text-muted'>" + str(date.hour) + "h" + str(date.minute) + "</small>"
             for u in users:
-                u.send(line)
+                u.send("<b>" + usr + "</b> - " + date + "<br>&nbsp;&nbsp;&nbsp;" + msg)
         else:
             break
     users.remove(ws)
@@ -96,22 +106,23 @@ def chat(ws):
 
 @app.route('/')
 def home():
-    # UPLOAD
-    disk = disk_usage()
-    audio = get_gallery('audio')
-    video = get_gallery('video')
-    img = get_gallery('img')
-    others = get_gallery('others')
+    name = request.get_cookie('w00tw00t')
+    if name is None:
+        cookie = 0
+    else:
+        cookie = 1
     # TEMPLATE
     context = {'title': 'pirat3box',
-               'diskspace': disk,
+               'diskspace': disk_usage(),
                'error': request.query.error,
                'success': request.query.success,
-               'audio': audio,
-               'video': video,
-               'img': img,
-               'others': others,
-               'chat': get_messages()}
+               'audio': get_gallery('audio'),
+               'video': get_gallery('video'),
+               'img': get_gallery('img'),
+               'others': get_gallery('others'),
+               'chat': get_messages(),
+               'cookie': cookie,
+               'name': name}
     return template('layout/base', context)
 
 

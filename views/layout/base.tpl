@@ -29,5 +29,6 @@
     </div>
 <script type="text/javascript" src="static/js/popper.min.js"></script>
 <script type="text/javascript" src="static/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="static/js/cookies_js.min.js"></script>
 </body>
 </html>
