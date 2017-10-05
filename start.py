@@ -4,6 +4,7 @@ import glob
 import sqlite3
 import datetime
 import json
+import cgi
 from bottle import Bottle, run, view, static_file, url, request, redirect, template, abort, response
 from bottle.ext.websocket import GeventWebSocketServer
 from bottle.ext.websocket import websocket
@@ -87,8 +88,8 @@ def chat(ws):
     while True:
         line = json.loads(ws.receive())
         if line is not None:
-            usr = line[0]
-            msg = line[1]
+            usr = cgi.escape(line[0])
+            msg = cgi.escape(line[1])
             date = datetime.datetime.now()
             conn = sqlite3.connect('piratebox.db', timeout=10)
             db = conn.cursor()

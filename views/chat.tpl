@@ -26,8 +26,8 @@
                 $('#messages').append('<li>' + evt.data + '</li>');
             }
             $('#send-message').submit(function() {
-                var usr = safe_tags(docCookies.getItem('w00tw00t'));
-                var content = safe_tags($('#message').val());
+                var usr = docCookies.getItem('w00tw00t');
+                var content = $('#message').val();
                 var msg = [usr, content];
                 if(msg !== '') { 
                     ws.send(JSON.stringify(msg));
