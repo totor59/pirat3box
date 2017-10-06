@@ -86,10 +86,12 @@ def get_upload_files(filename):
 def chat(ws):
     users.add(ws)
     while True:
-        line = json.loads(ws.receive())
+        line = ws.receive()
         if line is not None:
+            line = json.loads(line)
             usr = cgi.escape(line[0])
             msg = cgi.escape(line[1])
+            print msg
             date = datetime.datetime.now()
             conn = sqlite3.connect('piratebox.db', timeout=10)
             db = conn.cursor()
@@ -134,9 +136,10 @@ def upload():
     try:
         newfile = request.files.get('newfile')
         filetype = newfile.content_type
-        audio = ['audio/mpeg','audio/aac','audio/mp4','audio/ogg','audio/wav']
-        video = ['video/avi','video/msvideo','video/mp4','video/ogg']
-        img = ['image/jpeg', 'image/pjpeg','image/png','image/gif']
+        audio = ['audio/mpeg', 'audio/aac', 'audio/mp4', 'audio/ogg','audio/wav']
+        video = ['video/avi', 'video/msvideo', 'video/mp4', 'video/ogg',
+        'video/x-msvideo']
+        img = ['image/jpeg', 'image/pjpeg' ,'image/png' ,'image/gif']
         if filetype in audio:
             DEST_DIR = os.path.join(UPLOAD_DIR, 'audio')
         elif filetype in video:

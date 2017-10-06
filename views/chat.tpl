@@ -62,7 +62,9 @@
  <form id="send-message">
     <div class="input-group">
       <span class="input-group-btn">
-        <button class="btn btn-secondary" type="submit">Go!</button>
+        <button class="btn btn-secondary addmsg" type="submit"><i class="fa
+        fa-plus fa-lg" aria-hidden="true"></i>
+        </button>
       </span>
       <input type="text" class="form-control" id="message" placeholder="Dites un truc ...">
     </div>
@@ -75,7 +77,9 @@
 <script>
 $(document).ready(function() {
     var name = prompt("Quel est ton nom étranger?")
+    if(name !=null & name.length>0){
     docCookies.setItem("w00tw00t", name, Infinity);
+    }
 });
 </script>
 % end

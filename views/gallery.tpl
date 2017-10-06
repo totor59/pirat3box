@@ -41,7 +41,7 @@ Pas de stress, pas d'hadopi t'es pas sur internet !</p>
   <div role="tabpanel" class="tab-pane in active" id="videos">
         <ul>
       % for item in video:
-      <li><a href="uploads/music/{{item}}">{{item}}</a></li>
+      <li><a href="uploads/video/{{item}}">{{item}}</a></li>
       % end
     </ul>
   </div>
